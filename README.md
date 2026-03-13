@@ -204,7 +204,7 @@ View Log Habits
 ### Negative Cases
 
 Duplicate Log  
-![Duplicate Log](screenshot/Duplicate-Log.png)
+![Duplicate Log](screenshot/Duplicate_Log.png)
 
 Future Date Cannot Be Added  
 ![Future Date](screenshot/Log-Future.png)
