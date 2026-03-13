@@ -157,59 +157,59 @@ Response:
 ## Screenshots
 
 ### Create User
-![Create User](screenshot/UserCreate.png)
+![Create User](Screenshot/UserCreate.png)
 
 ### Get User
-![View User](screenshot/UserView.png)
+![View User](Screenshot/UserView.png)
 
 ### Delete User
-![Delete User](screenshot/UserDelete.png)
+![Delete User](Screenshot/UserDelete.png)
 
 ---
 
 ### Create Habit
-![Create Habit](screenshot/HabitCreate.png)
+![Create Habit](Screenshot/HabitCreate.png)
 
 ### Get User Habits
-![Get User Habits](screenshot/HabitView.png)
+![Get User Habits](Screenshot/HabitView.png)
 
 ### Delete Habits
-![Duplicate Habit](screenshot/HabitDelete.png)
+![Duplicate Habit](Screenshot/HabitDelete.png)
 
 ---
 
 ###  Add Log  Days
 
 Add Log 
-![Adding Log](screenshot/LogHabitAdd.png)
+![Adding Log](Screenshot/LogHabitAdd.png)
 
 Update the Log
-![Update Log](screenshot/LogHabitUpdate.png)
+![Update Log](Screenshot/LogHabitUpdate.png)
 
 View Log Habits  
-![View Log Habits ](screenshot/LogHabitView.png)
+![View Log Habits ](Screenshot/LogHabitView.png)
 
 ---
 
 ### Fetch Streak
-![Fetch Streak](screenshot/Streak.png)
+![Fetch Streak](Screenshot/Streak.png)
 
 ---
 
 ### Dashboard
-![Dashboard](screenshot/Dashboard.png)
+![Dashboard](Screenshot/Dashboard.png)
 
 ---
 
 ### Negative Cases
 
 Duplicate Log  
-![Duplicate Log](screenshot/Duplicate_Log.png)
+![Duplicate Log](Screenshot/Duplicate_Log.png)
 
 Future Date Cannot Be Added  
-![Future Date](screenshot/Log-Future.png)
+![Future Date](Screenshot/Log-Future.png)
 Non Existing User  
-![User Not Found](screenshot/non-existing user.png)
+![User Not Found](Screenshot/non-existing user.png)
 
 Invalid email
-![User Not Found](screenshot/invalid email.png)
+![User Not Found](Screenshot/invalid email.png)
