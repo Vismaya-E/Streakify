@@ -22,13 +22,13 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll(); //
-    }
-
+//    public List<User> getAllUsers() {
+//        return userRepository.findAll(); //
+//    }
+//
 
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(("User not found with id: "+ id)));
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(("User not found ")));
     }
 
     public void deleteUser(Long id) {

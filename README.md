@@ -1,56 +1,215 @@
-Streakify - Habit Tracking MVP
-Help people build life-changing habits through streak psychology and smart tracking.
 
-1. Setup Instructions
-   Prerequisites
-   Java 17
+# Streakify Backend
 
-Maven 3.x
+Streakify is a habit-tracking application designed to help users build life-changing habits using streak psychology, smart tracking, and productivity insights.
+This repository contains the backend implementation for Version 1.0 MVP, built with Spring Boot and PostgreSQL, and tested via Postman.
 
-PostgreSQL 15+
+## Tech Stack
+- Java
+- Spring Boot
+- PostgreSQL
+- JPA / Hibernate
+- Maven
+- Postman
 
-Database Setup
-Open your PostgreSQL terminal or pgAdmin.
+---
 
-Create the database: CREATE DATABASE streakify_db;.
+## Setup Steps
 
-The tables will be automatically created on the first run due to ddl-auto=update.
+1. Clone the repository
 
-Running the Application
-Navigate to the root directory and run:
 
-Bash
-./mvnw spring-boot:run
-The server will start at http://localhost:8080.
+      git clone https://github.com/Vismaya-E/Streakify
+      
+      cd streakify
 
-2. API Endpoints
-   User Management
-   POST /users: Register a new user.
+2. Configure Database
 
-GET /users/{id}: View user profile.
 
-Habit Management
-POST /habits: Create a new habit.
+   Create a PostgreSQL database named:
 
-GET /users/{userId}/habits: View all habits for a specific user.
+      CREATE DATABASE streakify_db;
 
-Habit Logs & Streaks
-POST /habits/{habitId}/logs: Log habit completion (Automatic User Identification).
 
-GET /habits/{habitId}/logs: View logs in descending order.
+   Update application.properties:
 
-GET /users/{userId}/dashboard: View productivity insights and consistency score.
+      spring.datasource.url=jdbc:postgresql://localhost:5432/streakify_db
+      spring.datasource.username=postgres
+      spring.datasource.password=yourpassword
 
-3. Business Rules Implemented
-   Validation: Prevents logging for future dates or dates before a habit was created.
 
-Duplicates: Restricts users to one log per habit per day.
+3. Run the application
 
-Ownership: Automatically links logs to the correct habit owner.
 
-4. Technical Stack
-   Backend: Spring Boot 4.0.2.
+      ./mvnw spring-boot:run
+   
+   Server runs on:
+   http://localhost:8080
 
-Database: PostgreSQL.
 
-Tools: Lombok for clean code and Jakarta Validation for data integrity.
+
+## Database Schema
+
+   users table
+
+      id (PK)
+      
+      name
+      
+      email (unique)
+      
+      created_at
+
+   habits table
+
+      
+      id (PK)
+      
+      name
+      
+      target_days_per_week
+      
+      user_id (FK → users.id)
+      
+      created_at
+
+   habit_logs table
+   
+      id (PK)
+      
+      habit_id (FK → habits.id)
+      
+      log_date
+      
+      completed (boolean)
+      
+      Unique constraint: (habit_id, log_date)
+
+## API Endpoints
+   
+   Users
+
+      POST /users  
+      GET /users/{id}  
+      DELETE /users/{id}
+   
+   Habits
+
+      POST /habits  
+      GET /users/{userId}/habits  
+      DELETE /habits/{id}
+   
+   Habit Logs
+
+      POST /habits/{habitId}/logs  
+      PUT /habits/{habitId}/logs/{date}  
+      GET /habits/{habitId}/logs
+   
+   Streak
+
+      GET /habits/{habitId}/streak
+   
+   Dashboard
+
+      GET /users/{userId}/dashboard
+
+---
+
+## Sample Request and Response
+
+ 1.Create User 
+
+Request:
+
+
+       {"name": "Vismaya", "email": "vismaya@example.com"}
+
+
+Response:
+   
+       
+       {"id": 1, "name": "Vismaya", "email": "vismaya@example.com" ,"createdAt": "2026-03-12T16:58:33.438324"}
+
+
+
+ 2.Create Habit
+
+Request:
+
+    {"name": "Morning Workout", "target_days_per_week": 5, "userId": 1} 
+Response: 
+
+    {"id": 10, "name": "Morning Workout", "target_days_per_week": 5, "userId": 1,"createdAt": "2026-03-12 21:27:59"}
+
+ 3.Productivity Dashboard (GET)
+ 
+    Response:
+
+        {
+            "totalHabits": 4,
+            "activeHabits": 3,
+            "completedToday": 2,
+            "currentStreaks": [...],
+            "consistencyScore": 82
+            }
+---
+
+## Screenshots
+
+### Create User
+![Create User](screenshot/UserCreate.png)
+
+### Get User
+![View User](screenshot/UserView.png)
+
+### Delete User
+![Delete User](screenshot/UserDelete.png)
+
+---
+
+### Create Habit
+![Create Habit](screenshot/HabitCreate.png)
+
+### Get User Habits
+![Get User Habits](screenshot/HabitView.png)
+
+### Delete Habits
+![Duplicate Habit](screenshot/HabitDelete.png)
+
+---
+
+###  Add Log  Days
+
+Add Log 
+![Adding Log](screenshot/LogHabitAdd.png)
+
+Update the Log
+![Update Log](screenshot/LogHabitUpdate.png)
+
+View Log Habits  
+![View Log Habits ](screenshot/LogHabitView.png)
+
+---
+
+### Fetch Streak
+![Fetch Streak](screenshot/Streak.png)
+
+---
+
+### Dashboard
+![Dashboard](screenshot/Dashboard.png)
+
+---
+
+### Negative Cases
+
+Duplicate Log  
+![Duplicate Log](screenshot/Duplicate-Log.png)
+
+Future Date Cannot Be Added  
+![Future Date](screenshot/Log-Future.png)
+Non Existing User  
+![User Not Found](screenshot/non-existing user.png)
+
+Invalid email
+![User Not Found](screenshot/invalid email.png)

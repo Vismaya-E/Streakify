@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,55 +12,40 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    // 1. Handles "Non-existing user" or "Habit not found" [cite: 166]
+    // 1. Handles "Non-existing user" or "Habit not found"
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException ex, WebRequest request) {
-        ErrorResponse error = new ErrorResponse(
-                ex.getMessage(),
-                request.getDescription(false));
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND); // Returns 404
+    public ResponseEntity<ErrorResponse> handleResourceNotFound(ResourceNotFoundException ex) {
+        // Returns: { "message": "User not found with id: X" }
+        return new ResponseEntity<>(new ErrorResponse(ex.getMessage()), HttpStatus.NOT_FOUND);
     }
 
-    // 2. Handles Business Rule violations (Future dates, Duplicate logs, Invalid frequency)
-    // You should create a simple 'BadRequestException' class for this
+    // 2. Handles Business Rule violations (Future dates, Duplicate logs)
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ErrorResponse> handleBadRequest(BadRequestException ex, WebRequest request) {
-        ErrorResponse error = new ErrorResponse(
-                " Rule Violation",
-                ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST); // Returns 400
+    public ResponseEntity<ErrorResponse> handleBadRequest(BadRequestException ex) {
+        // Returns: { "message": "Log date cannot be in the future" }
+        return new ResponseEntity<>(new ErrorResponse( ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    // 3. Specific handler for your Email/Unique constraints
+    // 3. Handles Email/Unique constraints (Data Integrity)
     @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ErrorResponse> handleRegistrationError(RuntimeException ex, WebRequest request) {
-        ErrorResponse error = new ErrorResponse(
-                "Data Integrity Error",
-                ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST); // Returns 400
+    public ResponseEntity<ErrorResponse> handleRegistrationError(RuntimeException ex) {
+        // Returns: { "message": "Email already exists" }
+        return new ResponseEntity<>(new ErrorResponse( ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-    // 4. Enhanced Validation: Collects ALL field errors for cleaner JSON
+    // 4. Enhanced Validation: Collects field errors into the 'message' field
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, Object>> handleValidationErrors(MethodArgumentNotValidException ex) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("message", "Validation Failed");
+    public ResponseEntity<ErrorResponse> handleValidationErrors(MethodArgumentNotValidException ex) {
+        // Get the first validation error message (e.g., "Invalid email format")
+        String firstError = ex.getBindingResult().getFieldErrors().get(0).getDefaultMessage();
 
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors().forEach(error ->
-                errors.put(error.getField(), error.getDefaultMessage()));
-
-        body.put("details", errors);
-
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST); // Returns 400
+        // Returns: { "message": "Invalid email format" }
+        return new ResponseEntity<>(new ErrorResponse( firstError), HttpStatus.BAD_REQUEST);
     }
 
     // 5. Final Safety Net
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex, WebRequest request) {
-        ErrorResponse error = new ErrorResponse(
-                "Internal Server Error",
-                ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR); // Returns 500
+    public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex) {
+        return new ResponseEntity<>(new ErrorResponse("Internal Server Error  " + ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
