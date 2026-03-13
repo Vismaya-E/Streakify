@@ -204,12 +204,12 @@ View Log Habits
 ### Negative Cases
 
 Duplicate Log  
-![Duplicate Log](Screenshot/Duplicate_Log.png)
+![Duplicate Log](Screenshot/DuplicateLog.png)
 
 Future Date Cannot Be Added  
-![Future Date](Screenshot/Log-Future.png)
+![Future Date](Screenshot/LogFuture.png)
 Non Existing User  
-![User Not Found](Screenshot/non-existing user.png)
+![User Not Found](Screenshot/nonExistingUser.png)
 
 Invalid email
-![User Not Found](Screenshot/invalid email.png)
+![User Not Found](Screenshot/invalidEmail.png)
