@@ -1,33 +1,34 @@
 HELP.md
-target/
+**/target/
+*.class
 .mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
 
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
+### IDEs ###
 .idea
 *.iws
 *.iml
 *.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
 .vscode/
+
+### Spring config (keep base, ignore secrets/local) ###
+/src/main/resources/application-*.local.properties
+/ src/main/resources/application-*.secret.properties
+!/src/main/resources/application-example.properties
+
+### Logs ###
+*.log
+logs/
+
+### Environment / Secrets ###
+.env
+.env.*
+*.local### OS generated files ###
+.DS_Store
+Thumbs.db
+
+### Packaged artifacts ###
+*.jar
+*.war
+*.ear
+!mvnw
+!mvnw.cmd
