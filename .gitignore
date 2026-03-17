@@ -12,8 +12,7 @@ HELP.md
 
 ### Spring config (keep base, ignore secrets/local) ###
 /src/main/resources/application-*.local.properties
-/ src/main/resources/application-*.secret.properties
-!/src/main/resources/application-example.properties
+/src/main/resources/application-*.secret.properties
 
 ### Logs ###
 *.log
@@ -22,7 +21,9 @@ logs/
 ### Environment / Secrets ###
 .env
 .env.*
-*.local### OS generated files ###
+*.local
+
+### OS generated files ###
 .DS_Store
 Thumbs.db
 
